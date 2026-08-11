@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1200" />
+  <title>Pedro Barroso — Data Analyst</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,500&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <style>
+    :root {
+      --beige: #e8dcc8;
+      --ink: #1a1a1a;
+      --ink-soft: #3a3a3a;
+      --charcoal: #2c2c2c;
+      --ribbon: #8b6b4a;
+      --ribbon-dark: #6e5338;
+      --accent-fill: #9a6b4f;
+      --white: #f7f8fa;
+      --muted: #c8c8c8;
+      --sidebar-w: 36%;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body { height: 100%; }
+
+    body {
+      font-family: "DM Sans", sans-serif;
+      background: #1a1a1a;
+      color: var(--ink);
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    * { cursor: none !important; }
+
+    .cursor { pointer-events: none; }
+
+    .cursor__ball {
+      position: fixed;
+      top: 0;
+      left: 0;
+      mix-blend-mode: difference;
+      z-index: 10000;
+      transition: opacity 0.22s ease;
+    }
+
+    .cursor__ball--big {
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cursor__ball--big svg { display: block; }
+
+    .cursor__ball--small {
+      width: 10px;
+      height: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cursor__ball circle { fill: #f7f8fa; }
+
+    @media (any-pointer: coarse) {
+      * { cursor: auto !important; }
+      .cursor { display: none; }
+    }
+
+    .resume {
+      display: grid;
+      grid-template-columns: var(--sidebar-w) 1fr;
+      max-width: 1100px;
+      min-height: 100vh;
+      margin: 0 auto;
+      background: var(--charcoal);
+      box-shadow: 0 0 80px rgba(0, 0, 0, 0.45);
+    }
+
+    .sidebar {
+      background: var(--beige);
+      padding: 2.5rem 2rem 2.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.75rem;
+    }
+
+    .photo-wrap {
+      width: 100%;
+      max-width: 240px;
+      margin: 0 auto;
+      border: 3px solid #5a5a5a;
+      border-radius: 6px;
+      overflow: hidden;
+      aspect-ratio: 3 / 4;
+      background: #ccc;
+    }
+
+    .photo-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+
+    .identity { text-align: center; }
+
+    .identity h1 {
+      font-size: 1.7rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      line-height: 1.15;
+      color: var(--ink);
+    }
+
+    .identity .role {
+      margin-top: 0.4rem;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+    }
+
+    .side-block h2 {
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 0.85rem;
+      color: var(--ink);
+    }
+
+    .contact-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+
+    .contact-list li {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      align-items: center;
+      column-gap: 0.7rem;
+      min-width: 0;
+    }
+
+    .contact-list a,
+    .contact-list .contact-text {
+      display: block;
+      color: var(--ink);
+      text-decoration: none;
+      font-size: 0.8rem;
+      line-height: 1.35;
+      word-break: break-word;
+      transition: color 0.2s ease;
+    }
+
+    .contact-list a:hover { color: var(--ribbon); }
+
+    .contact-label {
+      display: block;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      margin-bottom: 0.1rem;
+    }
+
+    .icon-circle {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #4a4a4a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      overflow: visible;
+    }
+
+    .icon-circle svg {
+      width: 14px;
+      height: 14px;
+      display: block;
+      overflow: visible;
+      fill: none;
+      stroke: #fff;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .lang-row {
+      display: grid;
+      grid-template-columns: 78px 1fr auto;
+      align-items: center;
+      gap: 0.55rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .lang-row span {
+      font-size: 0.84rem;
+      font-weight: 500;
+    }
+
+    .lang-row .lvl {
+      font-size: 0.7rem;
+      color: var(--ink-soft);
+      letter-spacing: 0.02em;
+    }
+
+    .bar {
+      height: 9px;
+      background: #fff;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .bar > i {
+      display: block;
+      height: 100%;
+      width: 0;
+      background: var(--accent-fill);
+      border-radius: 2px;
+      transition: width 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .resume.is-ready .bar > i { width: var(--v); }
+
+    .chip-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .chip {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      padding: 0.32rem 0.55rem;
+      background: rgba(255, 255, 255, 0.55);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 4px;
+      color: var(--ink);
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .chip.hoverable:hover {
+      background: var(--accent-fill);
+      color: #fff;
+    }
+
+    .cert-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+
+    .cert-list li {
+      font-size: 0.8rem;
+      line-height: 1.35;
+      color: var(--ink);
+    }
+
+    .cert-list strong {
+      display: block;
+      font-weight: 600;
+    }
+
+    .cert-list em {
+      font-style: normal;
+      color: var(--ink-soft);
+      font-size: 0.74rem;
+    }
+
+    .main {
+      background: var(--charcoal);
+      color: var(--white);
+      padding: 2.25rem 2.35rem 2.75rem 1.85rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .ribbon {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      background: var(--ribbon);
+      color: #fff;
+      font-size: 0.86rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 0.5rem 2.2rem 0.5rem 1.25rem;
+      margin-left: -1.85rem;
+      margin-bottom: 0.85rem;
+      clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 0 100%);
+    }
+
+    .ribbon::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -8px;
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 8px 10px 0 0;
+      border-color: var(--ribbon-dark) transparent transparent transparent;
+    }
+
+    .section-body { padding-left: 0.25rem; }
+
+    .section-body > p {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: var(--muted);
+    }
+
+    .objective-line {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: 0.02em;
+    }
+
+    .entry {
+      margin-bottom: 1.15rem;
+      padding: 0.85rem 0.9rem 0.9rem 0.85rem;
+      margin-left: -0.85rem;
+      margin-right: -0.4rem;
+      border-radius: 10px;
+      border: 1px solid transparent;
+      border-left: 3px solid transparent;
+      transition:
+        background 0.28s ease,
+        border-color 0.28s ease,
+        box-shadow 0.28s ease,
+        transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 0.28s ease;
+    }
+
+    .entry:last-child { margin-bottom: 0; }
+
+    .experience-list:hover .entry:not(:hover) {
+      opacity: 0.38;
+    }
+
+    .entry.hoverable:hover,
+    .entry.is-hot {
+      background: rgba(154, 107, 79, 0.14);
+      border-color: rgba(224, 176, 138, 0.22);
+      border-left-color: #c4956a;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22);
+      transform: translateX(4px);
+      opacity: 1;
+    }
+
+    .entry.hoverable:hover h3,
+    .entry.is-hot h3 {
+      color: #f0d2b0;
+    }
+
+    .entry.hoverable:hover .role-line,
+    .entry.is-hot .role-line {
+      color: #f0d2b0;
+    }
+
+    .entry.hoverable:hover .bullets li,
+    .entry.is-hot .bullets li,
+    .edu-entry.entry.hoverable:hover p,
+    .edu-entry.entry.is-hot p {
+      color: rgba(247, 248, 250, 0.92);
+    }
+
+    .entry.hoverable:hover .bullets li::before,
+    .entry.is-hot .bullets li::before {
+      background: #e0b08a;
+      box-shadow: 0 0 8px rgba(224, 176, 138, 0.55);
+    }
+
+    .entry-head {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 0.35rem 1rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .entry h3 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      font-style: italic;
+      color: #fff;
+    }
+
+    .entry .dates {
+      font-size: 0.78rem;
+      color: rgba(255, 255, 255, 0.45);
+      font-style: normal;
+      letter-spacing: 0.04em;
+    }
+
+    .entry .role-line {
+      font-size: 0.82rem;
+      color: #e0b08a;
+      margin-bottom: 0.45rem;
+      font-weight: 500;
+    }
+
+    .bullets {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .bullets li {
+      position: relative;
+      padding-left: 0.95rem;
+      font-size: 0.84rem;
+      line-height: 1.5;
+      color: var(--muted);
+    }
+
+    .bullets li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.55em;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--accent-fill);
+    }
+
+    .edu-entry h3 {
+      font-style: italic;
+      font-size: 0.95rem;
+      color: #fff;
+      margin-bottom: 0.2rem;
+    }
+
+    .edu-entry p {
+      font-size: 0.84rem;
+      color: var(--muted);
+    }
+
+    .radar-wrap {
+      position: relative;
+      width: min(100%, 380px);
+      margin: 0.35rem auto 0;
+      aspect-ratio: 1;
+    }
+
+    .radar-svg {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    .radar-grid {
+      fill: none;
+      stroke: rgba(255, 255, 255, 0.18);
+      stroke-width: 1.2;
+    }
+
+    .radar-axis {
+      stroke: rgba(255, 255, 255, 0.22);
+      stroke-width: 1.2;
+    }
+
+    .radar-arrow {
+      fill: #fff;
+      opacity: 0.85;
+    }
+
+    .radar-area {
+      fill: rgba(154, 107, 79, 0.55);
+      stroke: #c4956a;
+      stroke-width: 2;
+      transition: fill 0.35s ease, stroke 0.35s ease, filter 0.35s ease;
+      filter: drop-shadow(0 0 0 transparent);
+    }
+
+    .radar-area.is-hot {
+      fill: rgba(196, 120, 80, 0.72);
+      stroke: #e0b08a;
+      filter: drop-shadow(0 0 12px rgba(196, 120, 80, 0.45));
+    }
+
+    .radar-dot {
+      fill: #f0d2b0;
+      stroke: #fff;
+      stroke-width: 1.5;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .radar-dot.is-visible { opacity: 1; }
+
+    .radar-hit { fill: transparent; }
+
+    .radar-labels {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .radar-label {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      pointer-events: auto;
+      background: #fff;
+      color: #111;
+      font-size: 0.64rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 0.34rem 0.65rem;
+      border-radius: 999px;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+      white-space: nowrap;
+      transition:
+        transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 0.28s ease,
+        background 0.28s ease,
+        color 0.28s ease;
+      user-select: none;
+    }
+
+    .radar-label:hover,
+    .radar-label.is-active {
+      transform: translate(-50%, -50%) scale(1.12);
+      background: var(--accent-fill);
+      color: #fff;
+      box-shadow: 0 8px 22px rgba(154, 107, 79, 0.4);
+    }
+
+    .radar-tooltip {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%) scale(0.92);
+      background: rgba(20, 20, 20, 0.92);
+      color: #fff;
+      font-size: 0.76rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      padding: 0.5rem 0.85rem;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      white-space: nowrap;
+      z-index: 2;
+    }
+
+    .radar-tooltip.is-on {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .radar-tooltip strong {
+      color: #e0b08a;
+      font-weight: 700;
+    }
+
+    .hint {
+      text-align: center;
+      margin-top: 0.7rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.32);
+    }
+
+    .placeholder-note {
+      margin-top: 0.35rem;
+      font-size: 0.72rem;
+      color: rgba(255, 255, 255, 0.28);
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <div class="cursor" aria-hidden="true">
+    <div class="cursor__ball cursor__ball--big">
+      <svg width="30" height="30" viewBox="0 0 30 30"><circle cx="15" cy="15" r="14" /></svg>
+    </div>
+    <div class="cursor__ball cursor__ball--small">
+      <svg width="10" height="10" viewBox="0 0 10 10"><circle cx="5" cy="5" r="4" /></svg>
+    </div>
+  </div>
+
+  <article class="resume">
+    <aside class="sidebar">
+      <div class="photo-wrap">
+        <img src="photo.jpg" alt="Pedro Barroso" />
+      </div>
+
+      <div class="identity">
+        <h1>Pedro Barroso</h1>
+        <p class="role">Data Analyst</p>
+      </div>
+
+      <div class="side-block">
+        <h2>Contact</h2>
+        <ul class="contact-list">
+          <li>
+            <span class="icon-circle" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </span>
+            <a class="hoverable" href="tel:+97152279625">
+              <span class="contact-label">Phone</span>
+              +971 52 279 625
+            </a>
+          </li>
+          <li>
+            <span class="icon-circle" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+            </span>
+            <a class="hoverable" href="mailto:pedrobarroso9mmm@gmail.com">
+              <span class="contact-label">Email</span>
+              pedrobarroso9mmm@gmail.com
+            </a>
+          </li>
+          <li>
+            <span class="icon-circle" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            </span>
+            <a class="hoverable" href="https://www.linkedin.com/in/pedro-a-barroso/" target="_blank" rel="noopener">
+              <span class="contact-label">LinkedIn</span>
+              linkedin.com/in/pedro-a-barroso
+            </a>
+          </li>
+          <li>
+            <span class="icon-circle" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-7-10a7 7 0 1 1 14 0c0 5.5-7 10-7 10z"/><circle cx="12" cy="11" r="2.5"/></svg>
+            </span>
+            <span class="contact-text">
+              <span class="contact-label">Location</span>
+              Liwan, Dubai, UAE
+            </span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="side-block">
+        <h2>Competencies</h2>
+        <div class="chip-list">
+          <span class="chip hoverable">AI / LLM Solutions</span>
+          <span class="chip hoverable">Python</span>
+          <span class="chip hoverable">Data Visualization</span>
+          <span class="chip hoverable">Database Infrastructure</span>
+          <span class="chip hoverable">Automation</span>
+          <span class="chip hoverable">SQL</span>
+          <span class="chip hoverable">ETL / Pipelines</span>
+          <span class="chip hoverable">APIs</span>
+          <span class="chip hoverable">Looker Studio</span>
+          <span class="chip hoverable">Chatbots</span>
+          <span class="chip hoverable">A/B Testing</span>
+          <span class="chip hoverable">CRM Analytics</span>
+        </div>
+      </div>
+
+      <div class="side-block">
+        <h2>Languages</h2>
+        <div class="lang-row">
+          <span>English</span>
+          <div class="bar"><i style="--v: 95%"></i></div>
+          <span class="lvl">Fluent</span>
+        </div>
+        <div class="lang-row">
+          <span>Portuguese</span>
+          <div class="bar"><i style="--v: 100%"></i></div>
+          <span class="lvl">Native</span>
+        </div>
+        <div class="lang-row">
+          <span>Spanish</span>
+          <div class="bar"><i style="--v: 60%"></i></div>
+          <span class="lvl">Intermediate</span>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <section>
+        <div class="ribbon">Objective</div>
+        <div class="section-body">
+          <p class="objective-line">Data Analyst — Public Sector</p>
+        </div>
+      </section>
+
+      <section>
+        <div class="ribbon">Professional Summary</div>
+        <div class="section-body">
+          <p>
+            Data professional from Brazil, based in Dubai, with 5+ years focused on analytics
+            and BI — and a strong edge in practical AI solutions. Expert in Python across the
+            full data lifecycle: extraction, transformation, visualization and automation.
+            Designs database infrastructure, APIs and automated pipelines; builds LLM-powered
+            tools and intelligent chatbots that turn complex data into decisions that improve
+            performance and operational efficiency.
+          </p>
+        </div>
+      </section>
+
+      <section>
+        <div class="ribbon">Experience</div>
+        <div class="section-body experience-list">
+          <div class="entry hoverable">
+            <div class="entry-head">
+              <h3>Goettling Interiors</h3>
+              <span class="dates">Aug 2024 – Present</span>
+            </div>
+            <p class="role-line">Senior Data Analyst · Dubai, UAE</p>
+            <ul class="bullets">
+              <li>Structured business intelligence datasets in SQL and Python, turning raw operational data into actionable insights for leadership.</li>
+              <li>Integrated platforms via API calls, ensuring reliable data flow across systems and business processes.</li>
+              <li>Applied statistical methods, machine learning and predictive modeling to improve operational efficiency and guide strategy.</li>
+              <li>Built and maintained dashboards in Looker Studio and Excel, delivering clear reports that support faster decision-making.</li>
+              <li>Designed and ran A/B tests on marketing and engagement initiatives, optimizing campaigns with evidence-based results.</li>
+              <li>Partnered with stakeholders to define KPIs and CRM/e-commerce metrics, aligning data work with business goals.</li>
+            </ul>
+          </div>
+
+          <div class="entry hoverable">
+            <div class="entry-head">
+              <h3>Vinci Shoes</h3>
+              <span class="dates">Oct 2020 – Sep 2024</span>
+            </div>
+            <p class="role-line">Ecommerce Analyst · Porto Alegre, Brazil</p>
+            <ul class="bullets">
+              <li>Analyzed and structured BI data in Excel and analytics tools, driving performance optimization across e-commerce operations.</li>
+              <li>Integrated platforms through API calls, improving data connectivity between storefront, CRM and marketing systems.</li>
+              <li>Executed structured A/B tests on UX and campaigns, informing product and marketing decisions with measurable evidence.</li>
+              <li>Managed CRM analytics to refine customer engagement strategies and improve campaign effectiveness.</li>
+            </ul>
+          </div>
+
+          <div class="entry hoverable">
+            <div class="entry-head">
+              <h3>Agência YouGo</h3>
+              <span class="dates">Feb 2020 – Oct 2020</span>
+            </div>
+            <p class="role-line">Marketing Analyst · Porto Alegre, Brazil</p>
+            <ul class="bullets">
+              <li>Executed inbound and paid media strategies in Google Ads and social ads, optimizing campaigns for higher ROI.</li>
+              <li>Tracked end-to-end campaign performance with analytics, refining targeting to deliver measurable results for clients.</li>
+            </ul>
+          </div>
+
+          <div class="entry hoverable">
+            <div class="entry-head">
+              <h3>Vnda Ecommerce</h3>
+              <span class="dates">May 2019 – Jan 2020</span>
+            </div>
+            <p class="role-line">UX Designer · Porto Alegre, Brazil</p>
+            <ul class="bullets">
+              <li>Designed wireframes and high-fidelity prototypes in Figma for e-commerce sites, improving usability across industries.</li>
+              <li>Collaborated with development teams to implement user-centered layouts aligned with client conversion goals.</li>
+            </ul>
+          </div>
+
+          <div class="entry hoverable">
+            <div class="entry-head">
+              <h3>Uni Explorer Turismo</h3>
+              <span class="dates">Nov 2016 – May 2019</span>
+            </div>
+            <p class="role-line">Marketing Analyst · Porto Alegre, Brazil</p>
+            <ul class="bullets">
+              <li>Built buyer personas, journeys and sales funnels using inbound marketing methods, increasing engagement and conversion focus.</li>
+              <li>Optimized campaigns with Facebook Ads, Google Ads, Tag Manager and Analytics, maximizing ROI through continuous measurement.</li>
+              <li>Led content production teams to execute cohesive social and content strategies tied to sales outcomes.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="ribbon">Education</div>
+        <div class="section-body experience-list">
+          <div class="edu-entry entry hoverable">
+            <div class="entry-head">
+              <h3>Postgraduate Degree, Data Science — POLI USP PRO</h3>
+              <span class="dates">Apr 2024 – Apr 2026</span>
+            </div>
+            <p>Python, Big Data and applied data science.</p>
+          </div>
+          <div class="edu-entry entry hoverable">
+            <div class="entry-head">
+              <h3>Bachelor's Degree, Advertising — Centro Universitário Metodista IPA</h3>
+              <span class="dates">Jan 2015 – Dec 2019</span>
+            </div>
+            <p>Data-driven marketing and data analytics focus.</p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="ribbon">Expertise</div>
+        <div class="section-body">
+          <div class="radar-wrap" id="radar">
+            <svg class="radar-svg" viewBox="0 0 400 400" role="img" aria-label="Skills radar chart">
+              <g class="radar-grids"></g>
+              <g class="radar-axes"></g>
+              <polygon class="radar-area" points=""></polygon>
+              <g class="radar-dots"></g>
+              <g class="radar-hits"></g>
+              <g class="radar-arrows"></g>
+            </svg>
+            <div class="radar-labels"></div>
+            <div class="radar-tooltip" id="radarTip">SQL · <strong>90</strong></div>
+          </div>
+          <p class="hint">Hover skills to explore</p>
+        </div>
+      </section>
+    </main>
+  </article>
+
+  <script>
+    (function () {
+      const $bigBall = document.querySelector(".cursor__ball--big");
+      const $smallBall = document.querySelector(".cursor__ball--small");
+      if (!$bigBall || !$smallBall || typeof gsap === "undefined") return;
+
+      let mouseX = -200, mouseY = -200;
+      let rafScheduled = false;
+      const hoverSelector = "a, button, .hoverable, .radar-label, .radar-hit, .chip, .entry.hoverable, [role='button']";
+
+      function scheduleCursorUpdate() {
+        if (rafScheduled) return;
+        rafScheduled = true;
+        requestAnimationFrame(function () {
+          rafScheduled = false;
+          gsap.to($bigBall, { duration: 0.4, x: mouseX - 15, y: mouseY - 15, overwrite: "auto" });
+          gsap.to($smallBall, { duration: 0.1, x: mouseX - 5, y: mouseY - 5, overwrite: "auto" });
+        });
+      }
+
+      function getInteractiveTarget(node) {
+        if (!(node instanceof Element)) return null;
+        if (node.matches(hoverSelector)) return node;
+        return node.closest(hoverSelector);
+      }
+
+      document.body.addEventListener("mousemove", function (e) {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        scheduleCursorUpdate();
+      });
+
+      document.body.addEventListener("mouseover", function (e) {
+        const target = getInteractiveTarget(e.target);
+        if (!target) return;
+        if (getInteractiveTarget(e.relatedTarget) === target) return;
+        gsap.to($bigBall, { duration: 0.3, scale: 4, overwrite: "auto" });
+      });
+
+      document.body.addEventListener("mouseout", function (e) {
+        const target = getInteractiveTarget(e.target);
+        if (!target) return;
+        if (getInteractiveTarget(e.relatedTarget) === target) return;
+        gsap.to($bigBall, { duration: 0.3, scale: 1, overwrite: "auto" });
+      });
+    })();
+
+    (function () {
+      // Core strengths — AI solutions first; aligned to Goettling + data work
+      const skills = [
+        { label: "AI / LLM", value: 96 },
+        { label: "Python", value: 93 },
+        { label: "Data Viz", value: 90 },
+        { label: "Databases", value: 88 },
+        { label: "Automation", value: 92 },
+        { label: "APIs", value: 86 }
+      ];
+
+      const cx = 200, cy = 200, maxR = 112, levels = 5, n = skills.length;
+      const wrap = document.getElementById("radar");
+      const svg = wrap.querySelector(".radar-svg");
+      const gridsG = svg.querySelector(".radar-grids");
+      const axesG = svg.querySelector(".radar-axes");
+      const arrowsG = svg.querySelector(".radar-arrows");
+      const dotsG = svg.querySelector(".radar-dots");
+      const hitsG = svg.querySelector(".radar-hits");
+      const area = svg.querySelector(".radar-area");
+      const labelsEl = wrap.querySelector(".radar-labels");
+      const tip = document.getElementById("radarTip");
+
+      function angleAt(i) {
+        return -Math.PI / 2 + (i * 2 * Math.PI) / n;
+      }
+
+      function pointAt(i, value01) {
+        const a = angleAt(i);
+        const r = maxR * value01;
+        return { x: cx + Math.cos(a) * r, y: cy + Math.sin(a) * r };
+      }
+
+      function labelPos(i) {
+        const a = angleAt(i);
+        const r = maxR + 46;
+        return { x: cx + Math.cos(a) * r, y: cy + Math.sin(a) * r };
+      }
+
+      for (let l = 1; l <= levels; l++) {
+        const pts = [];
+        for (let i = 0; i < n; i++) {
+          const p = pointAt(i, l / levels);
+          pts.push(p.x + "," + p.y);
+        }
+        const poly = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+        poly.setAttribute("class", "radar-grid");
+        poly.setAttribute("points", pts.join(" "));
+        gridsG.appendChild(poly);
+      }
+
+      const dots = [];
+      const labelNodes = [];
+
+      skills.forEach(function (skill, i) {
+        const outer = pointAt(i, 1);
+        const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+        line.setAttribute("class", "radar-axis");
+        line.setAttribute("x1", cx);
+        line.setAttribute("y1", cy);
+        line.setAttribute("x2", outer.x);
+        line.setAttribute("y2", outer.y);
+        axesG.appendChild(line);
+
+        const a = angleAt(i);
+        const tipR = maxR + 10;
+        const tipX = cx + Math.cos(a) * tipR;
+        const tipY = cy + Math.sin(a) * tipR;
+        const size = 5;
+        const leftA = a + Math.PI * 0.82;
+        const rightA = a - Math.PI * 0.82;
+        const arrow = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+        arrow.setAttribute("class", "radar-arrow");
+        arrow.setAttribute("points", [
+          tipX + "," + tipY,
+          tipX + Math.cos(leftA) * size + "," + (tipY + Math.sin(leftA) * size),
+          tipX + Math.cos(rightA) * size + "," + (tipY + Math.sin(rightA) * size)
+        ].join(" "));
+        arrowsG.appendChild(arrow);
+
+        const p = pointAt(i, skill.value / 100);
+        const dot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        dot.setAttribute("class", "radar-dot");
+        dot.setAttribute("cx", p.x);
+        dot.setAttribute("cy", p.y);
+        dot.setAttribute("r", 5);
+        dotsG.appendChild(dot);
+        dots.push(dot);
+
+        const hit = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        hit.setAttribute("class", "radar-hit");
+        hit.setAttribute("cx", outer.x);
+        hit.setAttribute("cy", outer.y);
+        hit.setAttribute("r", 28);
+        hit.dataset.index = String(i);
+        hitsG.appendChild(hit);
+
+        const lp = labelPos(i);
+        const lbl = document.createElement("button");
+        lbl.type = "button";
+        lbl.className = "radar-label hoverable";
+        lbl.textContent = skill.label;
+        lbl.style.left = (lp.x / 400) * 100 + "%";
+        lbl.style.top = (lp.y / 400) * 100 + "%";
+        lbl.dataset.index = String(i);
+        labelsEl.appendChild(lbl);
+        labelNodes.push(lbl);
+      });
+
+      function setArea(values01, animate) {
+        const pts = values01.map(function (v, i) {
+          const p = pointAt(i, v);
+          return p.x + "," + p.y;
+        });
+        if (animate && typeof gsap !== "undefined") {
+          const state = { t: 0 };
+          const from = area.getAttribute("points")
+            ? area.getAttribute("points").split(" ").map(function (s) {
+                const xy = s.split(",");
+                return { x: +xy[0], y: +xy[1] };
+              })
+            : values01.map(function (_, i) { return pointAt(i, 0); });
+          const to = values01.map(function (v, i) { return pointAt(i, v); });
+
+          gsap.to(state, {
+            t: 1,
+            duration: 0.55,
+            ease: "power2.out",
+            onUpdate: function () {
+              const mid = from.map(function (f, i) {
+                return (f.x + (to[i].x - f.x) * state.t) + "," + (f.y + (to[i].y - f.y) * state.t);
+              });
+              area.setAttribute("points", mid.join(" "));
+              mid.forEach(function (s, i) {
+                const xy = s.split(",");
+                dots[i].setAttribute("cx", xy[0]);
+                dots[i].setAttribute("cy", xy[1]);
+              });
+            }
+          });
+        } else {
+          area.setAttribute("points", pts.join(" "));
+          values01.forEach(function (v, i) {
+            const p = pointAt(i, v);
+            dots[i].setAttribute("cx", p.x);
+            dots[i].setAttribute("cy", p.y);
+          });
+        }
+      }
+
+      setArea(skills.map(function () { return 0; }), false);
+      requestAnimationFrame(function () {
+        document.querySelector(".resume").classList.add("is-ready");
+        setArea(skills.map(function (s) { return s.value / 100; }), true);
+      });
+
+      let activeIndex = -1;
+
+      function activate(i) {
+        if (activeIndex === i) return;
+        activeIndex = i;
+        labelNodes.forEach(function (el, idx) { el.classList.toggle("is-active", idx === i); });
+        dots.forEach(function (d, idx) { d.classList.toggle("is-visible", idx === i); });
+        area.classList.add("is-hot");
+        tip.innerHTML = skills[i].label + " · <strong>" + skills[i].value + "</strong>";
+        tip.classList.add("is-on");
+        setArea(skills.map(function (s, idx) {
+          return idx === i ? Math.min(1, (s.value / 100) * 1.08) : s.value / 100;
+        }), true);
+      }
+
+      function deactivate() {
+        activeIndex = -1;
+        labelNodes.forEach(function (el) { el.classList.remove("is-active"); });
+        dots.forEach(function (d) { d.classList.remove("is-visible"); });
+        area.classList.remove("is-hot");
+        tip.classList.remove("is-on");
+        setArea(skills.map(function (s) { return s.value / 100; }), true);
+      }
+
+      labelNodes.forEach(function (lbl) {
+        lbl.addEventListener("mouseenter", function () { activate(+lbl.dataset.index); });
+        lbl.addEventListener("mouseleave", deactivate);
+        lbl.addEventListener("focus", function () { activate(+lbl.dataset.index); });
+        lbl.addEventListener("blur", deactivate);
+      });
+
+      hitsG.querySelectorAll(".radar-hit").forEach(function (hit) {
+        hit.addEventListener("mouseenter", function () { activate(+hit.dataset.index); });
+        hit.addEventListener("mouseleave", deactivate);
+      });
+
+      area.addEventListener("mouseenter", function () {
+        area.classList.add("is-hot");
+        dots.forEach(function (d) { d.classList.add("is-visible"); });
+      });
+      area.addEventListener("mouseleave", function () {
+        if (activeIndex === -1) {
+          area.classList.remove("is-hot");
+          dots.forEach(function (d) { d.classList.remove("is-visible"); });
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
