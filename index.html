@@ -843,7 +843,7 @@
             <div class="radar-labels"></div>
             <div class="radar-tooltip" id="radarTip">SQL · <strong>90</strong></div>
           </div>
-          <p class="hint">Hover skills to explore</p>
+          <p class="hint">Scroll to explore · then hover or tap a skill</p>
         </div>
       </section>
     </main>
@@ -1047,15 +1047,30 @@
       }
 
       setArea(skills.map(function () { return 0; }), false);
-      requestAnimationFrame(function () {
-        document.querySelector(".resume").classList.add("is-ready");
-        setArea(skills.map(function (s) { return s.value / 100; }), true);
-      });
+      document.querySelector(".resume").classList.add("is-ready");
 
       let activeIndex = -1;
+      let tourRunning = false;
+      let tourDone = false;
+      let tourTimers = [];
+      let userLocked = false; // mobile tap holds a skill until another tap
 
-      function activate(i) {
-        if (activeIndex === i) return;
+      function clearTourTimers() {
+        tourTimers.forEach(function (id) { clearTimeout(id); });
+        tourTimers = [];
+      }
+
+      function baseValues() {
+        return skills.map(function (s) { return s.value / 100; });
+      }
+
+      function activate(i, fromTour) {
+        if (!fromTour && tourRunning) {
+          clearTourTimers();
+          tourRunning = false;
+          tourDone = true;
+        }
+        if (activeIndex === i && !fromTour) return;
         activeIndex = i;
         labelNodes.forEach(function (el, idx) { el.classList.toggle("is-active", idx === i); });
         dots.forEach(function (d, idx) { d.classList.toggle("is-visible", idx === i); });
@@ -1067,33 +1082,118 @@
         }), true);
       }
 
-      function deactivate() {
+      function deactivate(force) {
+        if (userLocked && !force) return;
+        if (tourRunning && !force) return;
         activeIndex = -1;
+        userLocked = false;
         labelNodes.forEach(function (el) { el.classList.remove("is-active"); });
         dots.forEach(function (d) { d.classList.remove("is-visible"); });
         area.classList.remove("is-hot");
         tip.classList.remove("is-on");
-        setArea(skills.map(function (s) { return s.value / 100; }), true);
+        setArea(baseValues(), true);
+      }
+
+      function runIntroTour() {
+        if (tourDone || tourRunning) return;
+        tourRunning = true;
+        setArea(baseValues(), true);
+
+        var stepMs = 700;
+        var startDelay = 650;
+
+        skills.forEach(function (_, i) {
+          tourTimers.push(setTimeout(function () {
+            if (!tourRunning) return;
+            activate(i, true);
+          }, startDelay + i * stepMs));
+        });
+
+        tourTimers.push(setTimeout(function () {
+          if (!tourRunning) return;
+          tourRunning = false;
+          tourDone = true;
+          deactivate(true);
+        }, startDelay + skills.length * stepMs + 200));
+      }
+
+      if ("IntersectionObserver" in window) {
+        var observer = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (entry) {
+              if (entry.isIntersecting && entry.intersectionRatio >= 0.45) {
+                runIntroTour();
+                observer.disconnect();
+              }
+            });
+          },
+          { threshold: [0.45, 0.6] }
+        );
+        observer.observe(wrap);
+      } else {
+        runIntroTour();
+      }
+
+      function selectSkill(i) {
+        if (tourRunning) {
+          clearTourTimers();
+          tourRunning = false;
+          tourDone = true;
+        }
+        // Mobile / click: toggle lock on that skill
+        if (userLocked && activeIndex === i) {
+          userLocked = false;
+          deactivate(true);
+          return;
+        }
+        userLocked = true;
+        activate(i, false);
       }
 
       labelNodes.forEach(function (lbl) {
-        lbl.addEventListener("mouseenter", function () { activate(+lbl.dataset.index); });
-        lbl.addEventListener("mouseleave", deactivate);
-        lbl.addEventListener("focus", function () { activate(+lbl.dataset.index); });
-        lbl.addEventListener("blur", deactivate);
+        var idx = +lbl.dataset.index;
+        lbl.addEventListener("mouseenter", function () {
+          if (window.matchMedia("(hover: hover)").matches) {
+            userLocked = false;
+            activate(idx, false);
+          }
+        });
+        lbl.addEventListener("mouseleave", function () {
+          if (window.matchMedia("(hover: hover)").matches) {
+            deactivate(false);
+          }
+        });
+        lbl.addEventListener("click", function (e) {
+          e.preventDefault();
+          selectSkill(idx);
+        });
+        lbl.addEventListener("focus", function () { activate(idx, false); });
+        lbl.addEventListener("blur", function () { if (!userLocked) deactivate(false); });
       });
 
       hitsG.querySelectorAll(".radar-hit").forEach(function (hit) {
-        hit.addEventListener("mouseenter", function () { activate(+hit.dataset.index); });
-        hit.addEventListener("mouseleave", deactivate);
+        var idx = +hit.dataset.index;
+        hit.addEventListener("mouseenter", function () {
+          if (window.matchMedia("(hover: hover)").matches) {
+            userLocked = false;
+            activate(idx, false);
+          }
+        });
+        hit.addEventListener("mouseleave", function () {
+          if (window.matchMedia("(hover: hover)").matches) {
+            deactivate(false);
+          }
+        });
+        hit.addEventListener("click", function () { selectSkill(idx); });
       });
 
       area.addEventListener("mouseenter", function () {
+        if (tourRunning) return;
         area.classList.add("is-hot");
         dots.forEach(function (d) { d.classList.add("is-visible"); });
       });
       area.addEventListener("mouseleave", function () {
-        if (activeIndex === -1) {
+        if (activeIndex === -1 && !tourRunning) {
           area.classList.remove("is-hot");
           dots.forEach(function (d) { d.classList.remove("is-visible"); });
         }
