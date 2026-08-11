@@ -71,7 +71,7 @@ contact.alignment = WD_ALIGN_PARAGRAPH.CENTER
 contact.paragraph_format.space_after = Pt(2)
 set_run_font(
     contact.add_run(
-        "Liwan, Dubai, UAE  |  WhatsApp +971 52 279 625 (wa.me/97152279625)  |  "
+        "Liwan, Dubai, UAE  |  WhatsApp +971 52 6279 625 (wa.me/971526279625)  |  "
         "pedrobarroso9mmm@gmail.com  |  linkedin.com/in/pedro-a-barroso"
     ),
     size=10,
