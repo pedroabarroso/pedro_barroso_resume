@@ -102,7 +102,7 @@ add_heading_line("Competencies")
 add_para(
     "AI / LLM Solutions  |  Python  |  Data Visualization  |  Database Infrastructure  |  "
     "Automation  |  Ecommerce Specialist  |  SQL  |  ETL / Pipelines  |  APIs  |  Looker Studio  |  "
-    "Chatbots  |  Frontend / Web  |  A/B Testing  |  CRM Analytics"
+    "n8n  |  ChatGPT API  |  Shopify  |  Frontend / Web  |  A/B Testing  |  CRM Analytics"
 )
 
 add_heading_line("Professional Experience")
@@ -110,10 +110,10 @@ add_heading_line("Professional Experience")
 add_para("Goettling Interiors — Senior Data Analyst", bold=True, space_after=0)
 add_para("Dubai, UAE  |  Aug 2024 – Present", size=10, italic=True, space_after=4)
 for b in [
-    "Built an intelligent WhatsApp solution with AI/LLM automation, streamlining customer conversations and extracting actionable insights from chat data.",
-    "Built an automated data-migration robot that transferred and validated 2,010 projects from a legacy system into the new platform, completing ~64 hours of machine processing and replacing ~8 working days of repetitive manual work.",
+    "Built a WhatsApp automated chatbot with n8n and the ChatGPT API, qualifying leads and filtering 100+ messages a day so only warm opportunities reach the sales pipeline — saving countless hours of manual triage.",
+    "Built an automated data-migration robot with Python and Cursor that transferred and validated 2,010 projects from a legacy system to a new platform, completing ~64 hours of machine processing and replacing ~8 working days of repetitive manual work.",
+    "Delivered the Occhio Dubai e-commerce storefront end-to-end with Shopify and Claude Code — architecture, UX and conversion flows — live at occhiodubai.ae.",
     "Led the frontend rebuild of the Goettling digital experience (HTML/CSS/JS), shipping interactive product journeys and performance-focused UX.",
-    "Delivered the full Occhio Dubai e-commerce site end-to-end — storefront, content architecture and conversion flows — live at occhiodubai.ae.",
     "Structured business intelligence datasets in SQL and Python, turning raw operational data into actionable insights for leadership.",
     "Integrated platforms via API calls, ensuring reliable data flow across systems and business processes.",
     "Applied statistical methods, machine learning and predictive modeling to improve operational efficiency and guide strategy.",
