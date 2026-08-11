@@ -111,7 +111,7 @@ add_para("Goettling Interiors — Senior Data Analyst", bold=True, space_after=0
 add_para("Dubai, UAE  |  Aug 2024 – Present", size=10, italic=True, space_after=4)
 for b in [
     "Built an intelligent WhatsApp solution with AI/LLM automation, streamlining customer conversations and extracting actionable insights from chat data.",
-    "Built an automated migration robot for Winner Design → Winner Flex, migrating 2,010 projects successfully and saving ~64 hours (~8 working days) of repetitive manual work.",
+    "Built an automated data-migration robot that transferred and validated 2,010 projects from a legacy system into the new platform, completing ~64 hours of machine processing and replacing ~8 working days of repetitive manual work.",
     "Led the frontend rebuild of the Goettling digital experience (HTML/CSS/JS), shipping interactive product journeys and performance-focused UX.",
     "Delivered the full Occhio Dubai e-commerce site end-to-end — storefront, content architecture and conversion flows — live at occhiodubai.ae.",
     "Structured business intelligence datasets in SQL and Python, turning raw operational data into actionable insights for leadership.",
